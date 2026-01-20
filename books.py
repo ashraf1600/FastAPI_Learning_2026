@@ -16,6 +16,8 @@ BOOKS  = [
 for book in BOOKS:
     print(f"Book ID: {book["id"]}, Title: {book['title']}, Author: {book['author']}")   
 
+# practicing path parameters
+
 
 @app.get("/{boi_no}")
 def books(boi_no: int): # boi_no holo path parameter
@@ -24,3 +26,20 @@ def books(boi_no: int): # boi_no holo path parameter
         if book["id"] == boi_no:
             return book
     return {"error": "Book not found NOOO"}
+
+
+
+# practicing query parameters
+
+
+@app.get("/search/")
+def search_books(author: str = None, title: str = None):
+    results = []
+    for book in BOOKS:
+        if author and author.lower() not in book["author"].lower():
+            continue
+        if title and title.lower() not in book["title"].lower():
+            continue
+        results.append(book)
+    return results
+
